@@ -1,0 +1,119 @@
+{% load static %}
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/scripts.js' %}"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+        <script src="{% static 'js/datatables-simple-demo.js' %}"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+
+        <script>
+            $(document).ready(function(){
+              // Initialize select2
+              $("#id_name").select2();
+
+            });
+        </script>
+
+
+        <script type="text/javascript">
+            $(function () {
+            // inspect html to check id of category select dropdown.
+                $(document).on("change", "select#id_name", function () {
+                    $("div#ss2").html('');
+                    document.getElementById("block2-id").innerHTML = "Block 2 ";
+
+                    $.getJSON("/getSS/", { id: $(this).val() }, function (j) {
+                        var ss = '';
+                        for (var i = 0; i < j.length; i++) {
+                        ss +=
+                            //'<div class="mySlides"> <div class="numbertext">1 / 3</div> <img class="rounded mx-auto d-block" src="data/'+ j[i].file_name + '" style="width:50%"> <div class="text">Caption Text</div> </div>';
+                            //'<img src="data/' + j[i].file_name + '">';
+                            '<div><img class="rounded mx-auto d-block" src="data/' + j[i].file_name + '" alt=""></div>';
+                        }
+                        // inspect html to check id of subcategory select dropdown.
+                        //const collection = document.getElementsByClassName("slideshow-container");
+                        //console.log(collection[0]);
+                        //collection[1].innerHTML = ss;
+                        $("div#ss1").html(ss);
+
+                        if ($('.slider1').hasClass('slick-initialized')) {
+                            $('.slider1').slick('slickRemove', null, null, true);
+                            $('.slider1').slick('destroy');     }
+
+                        $(document).ready(function(){
+                          $('.slider1').slick({
+                              dots: true,
+                              infinite: true,
+                              speed: 500,
+                              fade: true,
+                              cssEase: 'linear'
+                          });
+                        });
+
+                        });
+                    });
+                });
+        </script>
+
+
+        <script type="text/javascript">
+            $(function () {
+            // inspect html to check id of category select dropdown.
+                $(document).on("click", "button#randomize-button", function () {
+                    let currentID = sessionStorage.getItem("current_id");
+                    $.getJSON("/getRandom/", { id_1: $("select#id_name").val(), id_2:currentID }, function (j) {
+                        sessionStorage.setItem("current_id", j[1][0].app_id);
+                        console.log(j[1][0].app_id)
+
+                        var ss = '';
+                        for (var i = 0; i < j.length; i++) {
+
+                        ss +=
+                            //'<div class="mySlides"> <div class="numbertext">1 / 3</div> <img class="rounded mx-auto d-block" src="data/'+ j[i].file_name + '" style="width:50%"> <div class="text">Caption Text</div> </div>';
+                            //'<img src="data/' + j[i].file_name + '">';
+                            '<div><img class="rounded mx-auto d-block" src="data/' + j[1][i].file_name + '" alt=""></div>';
+                        }
+
+                        document.getElementById("block2-id").innerHTML = "Block 2 - " + j[0][0];
+                        // inspect html to check id of subcategory select dropdown.
+                        //const collection = document.getElementsByClassName("slideshow-container");
+                        //console.log(collection[0]);
+                        //collection[1].innerHTML = ss;
+                        $("div#ss2").html(ss);
+
+
+                        if ($('.slider2').hasClass('slick-initialized')) {
+                            $('.slider2').slick('slickRemove', null, null, true);
+                            $('.slider2').slick('destroy');     }
+
+                        $(document).ready(function(){
+                          $('.slider2').slick({
+                              dots: true,
+                              infinite: true,
+                              speed: 500,
+                              fade: true,
+                              cssEase: 'linear'
+                          });
+                        });
+
+                        }).fail(function(jqXHR) {
+                            if (jqXHR.status === 404) {
+                                alert("404 Not Found");
+                            } else {
+                                alert("Other non-handled error type");
+                            }
+                        });
+                    });
+                });
+
+        </script>
+
+
+
+
+
+

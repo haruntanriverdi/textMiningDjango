@@ -1,0 +1,60 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block title %} Dashboard {% endblock %}
+
+{% block content %}
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item">Dashboard</li>
+                        </ol>
+
+                        <div class="row align-items-center">
+                            <div class="col-10">
+                                <form method="post" id="form" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+
+
+                                </form>
+                            </div>
+                            <div class="col-2">
+                                <button type="submit" class=" btn btn-primary primary-gradient" id="randomize-button">Randomize</button>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-6">
+                                <div class="card">
+
+                                  <div class="card-header">
+                                    Block 1
+                                  </div>
+                                    <div class="slider1" id="ss1">
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card">
+
+                                  <div class="card-header" id="block2-id">
+                                    Block 2
+                                  </div>
+                                    <div class="slider2"  id="ss2">
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </main>
+{% endblock content %}
