@@ -1,60 +1,67 @@
 {% extends "layouts/base.html" %}
 {% load static %}
-{% block title %} Dashboard {% endblock %}
+{% block title %} Upload {% endblock %}
 
 {% block content %}
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Dashboard</h1>
+                        <h1 class="mt-4">Text Mining</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item">Dashboard</li>
+                            <li class="breadcrumb-item">Final Project</li>
                         </ol>
 
                         <div class="row align-items-center">
-                            <div class="col-10">
-                                <form method="post" id="form" enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    {{ form.as_p }}
+                            <h2 class="my-4">Add a new image to analyze</h2>
+                              <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                  <div class="row">
+
+                                      <div class="col-5">
+                                          <label class="form-label" for="customFile">Add first chest X-Ray image</label>
+
+                                          {{ form.upload1 }}
+
+                                      </div>
+
+                                      <div class="col-5">
+                                          <label class="form-label" for="customFile">Add second chest X-Ray image</label>
+                                          {{ form.upload2 }}
+                                      </div>
+                                  </div>
+
+                                  <button class="btn btn-dark mt-3" type="submit">Submit</button>
 
 
-                                </form>
-                            </div>
-                            <div class="col-2">
-                                <button type="submit" class=" btn btn-primary primary-gradient" id="randomize-button">Randomize</button>
 
-                            </div>
+                                  <div class="row">
+                                      <h2 class="my-4">Results</h2>
+                                  {% if caption %}
+                                      <table class="table table-bordered">
+                                              <tr>
+                                                <th>True Caption</th>
+                                                <th>Predicted Caption</th>
+                                              </tr>
+                                              <tr>
+                                                <td>{{ true_caption }}</td>
+                                                <td>{{ caption }}</td>
+                                              </tr>
+                                        </table>
+                                  {% endif %}
+                                      <div class="col-6">
+                                          {% if image_1_str %}
+                                              <img class="rounded mx-auto d-block" src="data:image/webp;base64,{{ image_1_str }}">
+                                          {% endif %}
+                                      </div>
+                                      <div class="col-6">
+                                          {% if image_2_str %}
+                                              <img class="rounded mx-auto d-block" src="data:image/webp;base64,{{ image_2_str }}">
+                                          {% endif %}
+                                      </div>
+                                  </div>
 
-
+                              </form>
                         </div>
 
-                        <div class="row">
-
-                            <div class="col-6">
-                                <div class="card">
-
-                                  <div class="card-header">
-                                    Block 1
-                                  </div>
-                                    <div class="slider1" id="ss1">
-
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="card">
-
-                                  <div class="card-header" id="block2-id">
-                                    Block 2
-                                  </div>
-                                    <div class="slider2"  id="ss2">
-
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
                     </div>
                 </main>
 {% endblock content %}
